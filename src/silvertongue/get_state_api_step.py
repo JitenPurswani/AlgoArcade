@@ -70,6 +70,9 @@ async def handler(req, context):
             # THIS IS WHAT YOU WANTED
             "ai_response": data.get("last_response"),
 
+            # 🔥 INTENT DEBUG (THIS IS THE ANSWER)
+            "last_intent_signals": data.get("last_intent_signals"),
+            
             # Optional (for debugging / UI)
             "memory_size": len(data.get("memory", []))
         }

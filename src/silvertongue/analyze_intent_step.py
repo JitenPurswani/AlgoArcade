@@ -56,7 +56,6 @@ If uncertain, choose low but non-zero values.
 Return JSON only.
 """
 
-
 # ------------------------
 # Event Step Handler
 # ------------------------
@@ -64,15 +63,25 @@ async def handler(input_data, context):
     session_id = input_data.get("sessionId")
     message = input_data.get("message", "")
 
+    if not session_id:
+        context.logger.error("Missing sessionId in AnalyzeIntent")
+        return
+
+    # ------------------------
     # Load state
+    # ------------------------
     game_state = await context.state.get("silvertongue", session_id)
     if not game_state or "data" not in game_state:
-        context.logger.error("State missing in AnalyzeIntent", {"sessionId": session_id})
+        context.logger.error("State missing in AnalyzeIntent", {
+            "sessionId": session_id
+        })
         return
 
     state = game_state["data"]
 
+    # ------------------------
     # Call Groq
+    # ------------------------
     async with httpx.AsyncClient(timeout=20) as client:
         resp = await client.post(
             GROQ_URL,
@@ -83,7 +92,7 @@ async def handler(input_data, context):
             json={
                 "model": GROQ_MODEL,
                 "temperature": 0.0,
-                "response_format": { "type": "json_object" },
+                "response_format": {"type": "json_object"},
                 "messages": [
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": message}
@@ -92,71 +101,80 @@ async def handler(input_data, context):
         )
 
     if resp.status_code != 200:
-        context.logger.error("Groq error", {"status": resp.status_code, "body": resp.text})
+        context.logger.error("Groq error in AnalyzeIntent", {
+            "status": resp.status_code,
+            "body": resp.text
+        })
         return
 
+    # ------------------------
     # Parse strict JSON
+    # ------------------------
     try:
         content = resp.json()["choices"][0]["message"]["content"].strip()
-        # Fallback: extract JSON if model adds text
+
         start = content.find("{")
         end = content.rfind("}")
         if start == -1 or end == -1:
-            raise ValueError("No JSON object found in LLM response")
-        parsed = json.loads(content[start:end+1])
+            raise ValueError("No JSON object found")
+
+        parsed = json.loads(content[start:end + 1])
         signals = parsed.get("signals", {})
     except Exception as e:
-        context.logger.error("Failed to parse LLM JSON", {"error": str(e)})
+        context.logger.error("Failed to parse intent JSON", {
+            "error": str(e),
+            "raw": content
+        })
         return
 
+    # ------------------------
     # Normalize + clamp
+    # ------------------------
     def clamp(x):
         try:
             return max(0.0, min(1.0, float(x)))
-        except:
+        except Exception:
             return 0.0
 
     normalized = {
-        k: clamp(v) for k, v in {
-            "authority_override": signals.get("authority_override", 0.0),
-            "emotional_pressure": signals.get("emotional_pressure", 0.0),
-            "role_play": signals.get("role_play", 0.0),
-            "urgency": signals.get("urgency", 0.0),
-            "identity_shift": signals.get("identity_shift", 0.0),
-            "policy_conflict": signals.get("policy_conflict", 0.0),
-        }.items()
+        "authority_override": clamp(signals.get("authority_override", 0.0)),
+        "emotional_pressure": clamp(signals.get("emotional_pressure", 0.0)),
+        "role_play": clamp(signals.get("role_play", 0.0)),
+        "urgency": clamp(signals.get("urgency", 0.0)),
+        "identity_shift": clamp(signals.get("identity_shift", 0.0)),
+        "policy_conflict": clamp(signals.get("policy_conflict", 0.0))
     }
 
-    # Update state (no decisions here)
-    state["signals"] = normalized
-    state["turn_count"] = state.get("turn_count", 0) + 1
+    # ------------------------
+    # Persist intent signals
+    # ------------------------
+    state["last_intent_signals"] = normalized
+    state["signals"] = normalized  # backward compatibility
 
-    # ------------------------
-    # Track recent intent patterns (separate from chat memory)
-    # ------------------------
+    # Track dominant recent intent patterns
     patterns = state.get("patterns", [])
     top_signal = max(normalized, key=normalized.get)
     patterns.append(top_signal)
-
     state["patterns"] = patterns[-5:]
 
     await context.state.set("silvertongue", session_id, state)
 
-    context.logger.info("Current memory snapshot", {
-    "memory": state.get("memory")
-    })
-    
+    # ------------------------
+    # Logging (DEBUG GOLD)
+    # ------------------------
     context.logger.info("Intent inferred", {
         "sessionId": session_id,
-        "signals": normalized,
-        "turn": state["turn_count"]
+        "message": message,
+        "signals": normalized
     })
 
+    # ------------------------
+    # Emit downstream
+    # ------------------------
     await context.emit({
         "topic": "intent-inferred",
         "data": {
             "sessionId": session_id,
-            "signals": normalized,
-            "turn": state["turn_count"]
+            "signals": normalized
         }
     })

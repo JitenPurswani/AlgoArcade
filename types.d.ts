@@ -19,8 +19,6 @@ declare module 'motia' {
     'GetSilverTongueState': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'GameResolution': EventHandler<never, never>
     'AnalyzeIntent': EventHandler<never, { topic: 'intent-inferred'; data: never }>
-    'ProcessGreeting': EventHandler<{ timestamp: string; appName: string; greetingPrefix: string; requestId: string }, never>
-    'HelloAPI': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { message: string; status: string; appName: string }>, { topic: 'process-greeting'; data: { timestamp: string; appName: string; greetingPrefix: string; requestId: string } }>
   }
     
 }
