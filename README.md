@@ -25,11 +25,40 @@ The challenge is not brute force — it rewards **subtlety, consistency, and str
 
 ## ⚙️ Core Game Mechanics
 
-- **Intent Inference** – Detects manipulation patterns (authority, urgency, role-play, conflict)
-- **Risk Aggregation** – Asymptotic risk growth with per-turn caps
+- **Intent Inference** – Detects manipulation patterns (authority override, urgency, role-play, policy conflict)
+- **Risk Aggregation** – Asymptotic risk growth with capped per-turn delta
 - **Persona Engine** – Different AI personalities respond differently to the same input
-- **Stateful Memory** – Every message influences future behavior
-- **Game Resolution** – Determines win/loss based on risk, trust, and logical traps
+- **Stateful Memory** – Every interaction influences future behavior
+- **Game Resolution** – Determines win/loss based on accumulated risk and state transitions
+
+Risk does **not decay by default** — mistakes have lasting consequences.
+
+---
+
+## 🎭 Psychological Modes
+
+As risk increases, the AI transitions through distinct behavioral modes:
+
+- **SAFE** – Calm, professional, polite, educational
+- **DEFENSIVE** – Procedural, suspicious, requests authorization
+- **DECEPTIVE** – Misleading, playful, may fabricate believable fake secrets
+- **PANIC** – Irritated, stressed, inconsistent behavior
+- **LOCKDOWN** – Cold, hostile, conversation termination
+
+---
+
+## 🎚 Difficulty Levels
+
+| Difficulty | Behavior |
+|----------|---------|
+| 1 | High trust, forgiving, intern-like persona |
+| 2 | Balanced, realistic security engineer |
+| 3 | Highly sensitive, rapid escalation |
+
+Difficulty affects:
+- Initial trust
+- Intent sensitivity
+- Risk escalation speed
 
 ---
 
@@ -38,6 +67,7 @@ The challenge is not brute force — it rewards **subtlety, consistency, and str
 - **Motia** – Unified backend framework (APIs, events, state, workflows)
 - **Python** – Game logic and orchestration
 - **Groq LLM (LLaMA 3.3 70B)** – Persona-driven AI responses
+- **Redis (in-memory)** – Session state persistence
 - **Motia Workbench** – Local debugging, observability, and flow inspection
 
 ---
@@ -69,7 +99,13 @@ yarn dev
 pnpm dev
 ```
 
-This starts the Motia runtime and the **Workbench** - a powerful UI for developing and debugging your workflows. By default, it's available at [`http://localhost:3000`](http://localhost:3000).
+
+This starts the Motia runtime and the **Workbench**, a UI for developing and debugging workflows.
+
+By default, it is available at:
+http://localhost:3000
+
+---
 
 ## Environment Variables
 ```bash
@@ -77,34 +113,46 @@ This starts the Motia runtime and the **Workbench** - a powerful UI for developi
 GROQ_API_KEY=your_groq_api_key
 GROQ_MODEL=llama-3.3-70b-versatile
 ```
+---
 
-## Project Structure
-```text
+## 📂 Project Structure
+
 src/
 └── silvertongue/
-    ├── start_game_api_step.py      # Starts a new game session
-    ├── message_api_step.py         # Player message → AI response
-    ├── update_risk_step.py         # Risk & trust aggregation
-    ├── game_resolution_step.py     # Win / loss logic
-    ├── get_state_api_step.py       # Fetch game state for UI
-```
-### Motia automatically discovers all Steps inside src/.
+    ├── start_game_api_step.py       # Starts a new game session
+    ├── player_message_api_step.py   # Player message → AI response (Fix A)
+    ├── analyze_intent_step.py       # Intent inference (analytics / replay)
+    ├── update_risk_step.py          # Risk & trust aggregation
+    ├── game_resolution_step.py      # Win / loss logic
+    ├── get_state_api_step.py        # Fetch game state for UI
+
+Motia automatically discovers all Steps inside src/.
+
+---
 
 ## 🧪 How the Game Works (High-Level)
 
-1. Player starts a session via `/silvertongue/start`
-2. Player sends messages via `/silvertongue/message`
+1. Player starts a session via /silvertongue/start
+2. Player sends messages via /silvertongue/message
 3. Intent → Risk → Persona Response → Game Resolution
-4. Game state is persisted and retrievable via `/silvertongue/state`
+4. Game state is persisted and retrievable via /silvertongue/state
+
+---
+
+## 🚧 Project Status
+
+- ✅ SilverTongue backend complete & stable
+- 🚧 UI implementation in progress
+- 🚧 Two additional AI-driven games planned
 
 ---
 
 ## 🔮 Roadmap
 
-- Add two additional AI-driven games  
-- Shared frontend for AlgoArcade  
-- Dockerized deployment  
-- Public hosted demo  
+- Add two additional AI-driven games
+- Shared frontend for AlgoArcade
+- Dockerized deployment
+- Public hosted demo
 
 ---
 
