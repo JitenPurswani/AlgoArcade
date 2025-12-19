@@ -1,0 +1,52 @@
+[
+  {
+    "id": "hello-world-flow",
+    "config": {
+      "src\\hello\\process_greeting_step.py": {
+        "x": 350,
+        "y": 44
+      },
+      "src\\hello\\hello_api_step.py": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  {
+    "id": "silvertongue-flow",
+    "config": {
+      "src\\silvertongue\\update_risk_step.py": {
+        "x": 694,
+        "y": 227
+      },
+      "src\\silvertongue\\start_game_api_step.py": {
+        "x": -343,
+        "y": 201
+      },
+      "src\\silvertongue\\player_message_api_step.py": {
+        "x": 0,
+        "y": 203
+      },
+      "src\\silvertongue\\get_state_api_step.py": {
+        "x": 0,
+        "y": 406
+      },
+      "src\\silvertongue\\analyze_intent_step.py": {
+        "x": 338,
+        "y": 227
+      },
+      "src\\silvertongue\\game_resolution_step.py": {
+        "x": 1353,
+        "y": 237
+      },
+      "src\\silvertongue\\persona_response_step.py": {
+        "x": 1044,
+        "y": 237
+      },
+      "src\\silvertongue\\verify_secret_api_step.py": {
+        "x": 377,
+        "y": 415
+      }
+    }
+  }
+]
