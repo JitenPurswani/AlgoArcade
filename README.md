@@ -62,16 +62,6 @@ Difficulty affects:
 
 ---
 
-## 🛠 Tech Stack
-
-- **Motia** – Unified backend framework (APIs, events, state, workflows)
-- **Python** – Game logic and orchestration
-- **Groq LLM (LLaMA 3.3 70B)** – Persona-driven AI responses
-- **Redis (in-memory)** – Session state persistence
-- **Motia Workbench** – Local debugging, observability, and flow inspection
-
----
-
 ## 📱 Game 2: The Hook
 
 **The Hook** is a simulation of a short-form content recommendation algorithm, where the player does not consume content — **they are the algorithm** deciding what the user sees next.
@@ -112,6 +102,51 @@ The game exposes how:
 
 This game intentionally avoids LLMs during gameplay to reflect real recommendation system design.
 
+## 🧩 Game 3: Entangled
+
+**Entangled** is a socio-technical matchmaking simulation that places the player in control of a dating platform’s decision engine.
+
+Instead of optimizing for love alone, the player must balance:
+- User satisfaction
+- Platform revenue
+- Ethical cost
+
+Every decision introduces trade-offs between trust, engagement, and manipulation.
+
+---
+
+## ⚙️ Core Game Mechanics (Entangled)
+
+- **Candidate Pool** – Each round presents multiple candidates with hard traits, soft traits, and red flags
+- **Decisions** – MATCH, PASS, or DELAY influence outcomes differently
+- **Chat Simulation** – LLM-derived or simulated signals (interest, comfort, conflict)
+- **Outcome Resolution** – SUCCESS, AWKWARD, FAILURE, MANIPULATIVE, PASS
+- **Candidate Churn** – Resolved candidates are replaced dynamically
+- **Score System** – Reputation, Revenue, Ethical Debt
+- **Endgame Engine** – Deterministic endings after fixed rounds
+
+---
+
+## 🧠 Endings (Entangled)
+
+Based on final scores after all rounds:
+
+- **HEALTHY_MATCHMAKER** – High trust, low ethical debt
+- **COLD_OPTIMIZER** – Strong revenue, moderate ethical compromise
+- **TRUST_COLLAPSE** – High manipulation, reputation loss
+- **BURNOUT_LOOP** – No balance achieved
+
+The game exposes how algorithmic incentives shape human outcomes.
+
+---
+
+## 🛠 Tech Stack
+
+- **Motia** – Unified backend framework (APIs, events, state, workflows)
+- **Python** – Game logic and orchestration
+- **Groq LLM (LLaMA 3.3 70B)** – Persona-driven AI responses (SilverTongue, Entangled)
+- **Redis (in-memory)** – Session state persistence
+- **Motia Workbench** – Local debugging, observability, and flow inspection
 
 ## 🚀 Quick Start
 
@@ -157,6 +192,7 @@ GROQ_MODEL=llama-3.3-70b-versatile
 ---
 
 ## 📂 Project Structure
+
 ```text
 src/
 └── silvertongue/
@@ -166,7 +202,37 @@ src/
     ├── update_risk_step.py          # Risk & trust aggregation
     ├── game_resolution_step.py      # Win / loss logic
     ├── get_state_api_step.py        # Fetch game state for UI
+=======
 
+```text
+
+src/
+├── silvertongue/        # Game 1: SilverTongue (LLM-driven social engineering)
+│   ├── start_game_api_step.py
+│   ├── player_message_api_step.py
+│   ├── analyze_intent_step.py
+│   ├── update_risk_step.py
+│   ├── game_resolution_step.py
+│   └── get_state_api_step.py
+│
+├── thehook/             # Game 2: The Hook (deterministic recommendation engine)
+│   ├── hook_start_api_step.py
+│   ├── hook_next_api_step.py
+│   ├── hook_state_api_step.py
+│   ├── hook_video_generator.py
+│   ├── hook_mechanics.py
+│   ├── hook_personas.py
+│   └── hook_constants.py
+│
+├── entangled/           # Game 3: Entangled (ethical matchmaking simulation)
+│   ├── start_game_api_step.py
+│   ├── decide_match_api_step.py
+│   ├── simulate_chat_event_step.py
+│   ├── game_resolution_event_step.py
+│   └── get_state_api_step.py
+
+
+```
 Motia automatically discovers all Steps inside src/.
 ```
 ---

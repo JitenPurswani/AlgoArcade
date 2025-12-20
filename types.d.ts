@@ -22,6 +22,11 @@ declare module 'motia' {
     'GetSilverTongueState': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'GameResolution': EventHandler<never, never>
     'AnalyzeIntent': EventHandler<never, { topic: 'intent-inferred'; data: never }>
+    'StartEntangledGame': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'SimulateEntangledChat': EventHandler<never, { topic: 'entangled-chat-simulated'; data: never }>
+    'GetEntangledState': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'ResolveEntangledOutcome': EventHandler<never, never>
+    'DecideEntangledMatch': ApiRouteHandler<Record<string, unknown>, unknown, { topic: 'entangled-decision-made'; data: never }>
   }
     
 }
