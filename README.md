@@ -227,30 +227,94 @@ Motia automatically discovers all Steps inside src/.
 
 ---
 
-## 🧪 How the Game Works (High-Level)
+## 🧪 How Each Game Works
 
+### 🧠 Game 1: SilverTongue
+SilverTongue simulates a high-stakes social engineering scenario where the player attempts to manipulate an AI persona into revealing a protected secret.
+
+Flow:
 1. Player starts a session via /silvertongue/start
 2. Player sends messages via /silvertongue/message
-3. Intent → Risk → Persona Response → Game Resolution
-4. Game state is persisted and retrievable via /silvertongue/state
+3. Each message is analyzed for manipulation intent
+4. Risk and trust are updated asymptotically
+5. Persona responds based on current risk, trust level, and psychological mode
+6. Game ends when:
+   - The secret is leaked (player wins)
+   - The AI enters LOCKDOWN (player loses)
+
+Key Insight:
+Manipulation is cumulative. Small mistakes compound. There is no reset.
+
+
+### 📱 Game 2: The Hook
+The Hook models a short-form content recommendation algorithm, where the player acts as the feed-ranking system.
+
+Flow:
+1. Player starts a session via /hook/start
+2. Each round generates 10 candidate videos with topics, durations, and viral scores
+3. Player selects one video to recommend
+4. System updates watch time, boredom, fatigue, and interest weights
+5. Game ends when:
+   - Total watch time ≥ 600 seconds (win)
+   - Boredom ≥ 100 (loss)
+
+Key Insight:
+No intelligence is required — only optimization. This is intentional.
+
+
+### 💞 Game 3: Entangled
+Entangled simulates a dating/matchmaking platform where the player is the algorithm making ethically ambiguous decisions.
+
+Flow:
+1. Player starts a session via /entangled/start
+2. Each round, the player chooses to MATCH, PASS, or DELAY a candidate
+3. A simulated conversation generates behavioral signals
+4. Outcome is resolved using logic compatibility, vibe alignment, and conversation signals
+5. Scores update: Reputation, Revenue, Ethical Debt
+6. Candidate churn occurs after every decision
+7. Game ends after 8 rounds with a systemic outcome
+
+Key Insight:
+You are not matching people — you are optimizing a system.
+
 
 ---
 
-## 🚧 Project Status
+## 📊 Game Comparison
 
-- ✅ SilverTongue backend complete & stable
-- 🚧 UI implementation in progress
-- 🚧 Two additional AI-driven games planned
+| Game        | Core Theme              | AI Usage | Determinism | Player Role        | Ethical Focus |
+|-------------|-------------------------|----------|-------------|--------------------|---------------|
+| SilverTongue| Manipulation & Trust    | LLM      | Semi        | Social Engineer    | High          |
+| The Hook    | Engagement Optimization | None     | Full        | Recommendation Algo| Medium        |
+| Entangled  | Matchmaking Systems     | Hybrid   | Semi        | Platform Algorithm | Very High     |
+
+
+---
+
+## 🎯 Why AlgoArcade Exists
+
+AlgoArcade exists to expose how modern algorithmic systems behave when optimized for metrics instead of humans.
+
+These games are not entertainment-first.
+They are simulations designed to make invisible system incentives visible.
+
+AlgoArcade explores:
+- How trust erodes without obvious failure
+- How engagement can be maximized while harming users
+- How ethical debt accumulates silently
+- How systems fail without a single “bug”
+
+Each game isolates one real-world system and removes the UI polish, leaving only the logic.
+
 
 ---
 
 ## 🔮 Roadmap
 
-- Add two additional AI-driven games
-- Shared frontend for AlgoArcade
+- Unified frontend for all games
+- Visual state inspection and replay
 - Dockerized deployment
 - Public hosted demo
-
 ---
 
 ## Learn More
