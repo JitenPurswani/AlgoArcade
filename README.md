@@ -194,17 +194,6 @@ GROQ_MODEL=llama-3.3-70b-versatile
 ## 📂 Project Structure
 
 ```text
-src/
-└── silvertongue/
-    ├── start_game_api_step.py       # Starts a new game session
-    ├── player_message_api_step.py   # Player message → AI response (Fix A)
-    ├── analyze_intent_step.py       # Intent inference (analytics / replay)
-    ├── update_risk_step.py          # Risk & trust aggregation
-    ├── game_resolution_step.py      # Win / loss logic
-    ├── get_state_api_step.py        # Fetch game state for UI
-=======
-
-```text
 
 src/
 ├── silvertongue/        # Game 1: SilverTongue (LLM-driven social engineering)
@@ -233,8 +222,9 @@ src/
 
 
 ```
+
 Motia automatically discovers all Steps inside src/.
-```
+
 ---
 
 ## 🧪 How the Game Works (High-Level)
