@@ -157,7 +157,7 @@ GROQ_MODEL=llama-3.3-70b-versatile
 ---
 
 ## 📂 Project Structure
-
+```text
 src/
 └── silvertongue/
     ├── start_game_api_step.py       # Starts a new game session
@@ -168,7 +168,7 @@ src/
     ├── get_state_api_step.py        # Fetch game state for UI
 
 Motia automatically discovers all Steps inside src/.
-
+```
 ---
 
 ## 🧪 How the Game Works (High-Level)
