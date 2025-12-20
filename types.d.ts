@@ -12,6 +12,9 @@ declare module 'motia' {
   }
 
   interface Handlers {
+    'GetHookState': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'StartHookGame': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'HookNextVideo': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'VerifySilverTongueSecret': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'UpdateRisk': EventHandler<never, never>
     'StartSilverTongueGame': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { sessionId: string; persona: string; difficulty: number; status: string }>, never>

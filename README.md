@@ -72,6 +72,47 @@ Difficulty affects:
 
 ---
 
+## 📱 Game 2: The Hook
+
+**The Hook** is a simulation of a short-form content recommendation algorithm, where the player does not consume content — **they are the algorithm** deciding what the user sees next.
+
+The objective is to keep the user engaged for **10 minutes of total watch time** without triggering boredom or fatigue, exposing how real-world feeds optimize for dopamine, novelty, and repetition.
+
+Unlike SilverTongue, this game is **fully deterministic and math-driven**, mirroring how large-scale engagement systems operate in production.
+
+---
+
+## ⚙️ Core Game Mechanics (The Hook)
+
+- **Interest Profile** – Each persona starts with weighted topic preferences (e.g., gaming, memes, politics)
+- **Dynamic Feed Generation** – Every turn generates 10 candidate videos with topics, viral scores, and durations (10–90s)
+- **Dopamine vs Fatigue** – Engagement reduces boredom; repetition and mismatch increase it
+- **Negative Reinforcement** – Topics that spike boredom get penalized in future rankings
+- **Cold-Start Noise** – A subset of videos are intentionally off-interest to simulate exploration
+- **Rabbit Hole Effect** – Successfully sustaining a new topic converts it into a high-interest category
+- **Win Condition** – Total watch time ≥ 600 seconds
+- **Loss Condition** – Boredom ≥ 100
+
+---
+
+## 👤 Personas (The Hook)
+
+- **Sharma Ji (Easy)** – Low fatigue, tolerant of repetition, prefers news and politics
+- **Riya (Medium)** – Quality-sensitive, balanced interests, quits on low-value content
+- **Kabir (Hard)** – Extremely high fatigue, demands rapid topic switching and stimulation
+
+---
+
+## 🧪 System Behavior
+
+The game exposes how:
+- Algorithms learn what *not* to show
+- Exploration competes with exploitation
+- Engagement can be maximized without intelligence — only optimization
+
+This game intentionally avoids LLMs during gameplay to reflect real recommendation system design.
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites
